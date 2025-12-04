@@ -1,0 +1,32 @@
+name: Daily DDL Check
+
+on:
+  schedule:
+    # Run at 10:00 AM UTC every day
+    # Note: GitHub Actions schedule uses UTC. 
+    # If the user wants 10 AM local time, we might need to adjust.
+    # Assuming 10 AM UTC for now as "every day at 10 am" is usually generic.
+    - cron: '0 10 * * *'
+  workflow_dispatch:
+
+jobs:
+  check-ddls:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup_python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run DDL Check
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          ALERT_DAYS: ${{ vars.ALERT_DAYS || '3' }}
+        run: python main.py
