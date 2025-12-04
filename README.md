@@ -1,0 +1,1 @@
+This is a project to send notification to a discord channel when a new DDL is coming.
