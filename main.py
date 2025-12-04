@@ -34,11 +34,10 @@ def main():
         
         for ddl in ddls:
             if should_notify(ddl['date'], days_ahead=alert_days):
-                # Format message: replace | with \t
-                original_line = ddl['original_line']
-                message = original_line.replace('|', '\t')
+                # Use the preserved original message
+                message = ddl.get('original_message', '')
                 
-                print(f"Sending notification for: {message}")
+                print(f"Sending notification for:\n{message}")
                 send_discord_notification(message)
 
 if __name__ == "__main__":
