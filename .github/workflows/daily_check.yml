@@ -6,7 +6,7 @@ on:
     # Note: GitHub Actions schedule uses UTC. 
     # If the user wants 10 AM local time, we might need to adjust.
     # Assuming 10 AM UTC for now as "every day at 10 am" is usually generic.
-    - cron: '0 9 * * *'
+    - cron: '0 14 * * *'
   push:
     branches:
       - main
