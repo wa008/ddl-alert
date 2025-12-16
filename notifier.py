@@ -12,7 +12,7 @@ def send_discord_notification(message):
         return False
 
     payload = {
-        "content": message
+        "content": f"@everyone\n{message}"
     }
     
     try:
