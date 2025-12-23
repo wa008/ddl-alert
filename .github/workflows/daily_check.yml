@@ -1,6 +1,7 @@
 name: Daily DDL Check
 
 on:
+  workflow_dispatch:  # Allow manual execution
   schedule:
     # Run at 10:00 AM UTC every day
     # Note: GitHub Actions schedule uses UTC. 
