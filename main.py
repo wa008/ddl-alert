@@ -11,14 +11,14 @@ def main():
     
     # Get configuration
     try:
-        alert_days = int(os.getenv("ALERT_DAYS", 3))
+        alert_days = int(os.getenv("ALERT_DAYS", 7))
     except ValueError:
-        print("Invalid ALERT_DAYS in .env, defaulting to 3.")
-        alert_days = 3
+        print("Invalid ALERT_DAYS in .env, defaulting to 7.")
+        alert_days = 7
         
     ddl_dir = os.getenv("DDL_DIR", "data")
     
-    print(f"Checking for DDLs {alert_days} business days from today in '{ddl_dir}'...")
+    print(f"Checking for DDLs {alert_days} days from today in '{ddl_dir}'...")
     
     if not os.path.exists(ddl_dir):
         print(f"Directory '{ddl_dir}' not found. Please create it and add DDL files.")

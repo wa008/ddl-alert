@@ -27,5 +27,5 @@ jobs:
       - name: Run DDL Check
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          ALERT_DAYS: ${{ vars.ALERT_DAYS || '3' }}
+          ALERT_DAYS: ${{ vars.ALERT_DAYS || '7' }}
         run: python main.py
