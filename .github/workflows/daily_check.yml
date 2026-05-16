@@ -7,7 +7,7 @@ on:
     # Note: GitHub Actions schedule uses UTC. 
     # If the user wants 10 AM local time, we might need to adjust.
     # Assuming 10 AM UTC for now as "every day at 10 am" is usually generic.
-    - cron: '0 14 * * *'
+    - cron: '10 14 * * *'
 
 jobs:
   check-ddls:
@@ -30,3 +30,4 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           ALERT_DAYS: ${{ vars.ALERT_DAYS || '7' }}
         run: python main.py
+
