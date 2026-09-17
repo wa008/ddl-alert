@@ -12,9 +12,11 @@ on:
 jobs:
   check-ddls:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Grants write permission to push commit
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -30,4 +32,22 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           ALERT_DAYS: ${{ vars.ALERT_DAYS || '7' }}
         run: python main.py
+      - name: Keepalive & Update Run Timestamp
+        run: |
+          DAY_OF_WEEK=$(date +%u)
+          EVENT_NAME="${{ github.event_name }}"
 
+          # Run keepalive on Mondays (DAY_OF_WEEK=1) or when manually triggered via workflow_dispatch
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] || [ "$DAY_OF_WEEK" -eq 1 ]; then
+            echo "Executing keepalive commit..."
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+            echo "Last run: $(date -u '+%Y-%m-%d %H:%M:%S UTC') ($EVENT_NAME)" > latest_run.txt
+
+            git add latest_run.txt
+            git commit -m "chore: keepalive update latest_run.txt [skip ci]" || echo "No changes to commit"
+            git push
+          else
+            echo "Skip keepalive commit (Day of week: $DAY_OF_WEEK, Event: $EVENT_NAME)"
+          fi
